@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Windows.Forms;
+
+
 
 namespace SubtitleAdRemover
 {
@@ -24,6 +27,14 @@ namespace SubtitleAdRemover
                 }
             }
         }
+
+        public static void DeleteItemFromDirList()
+        {
+            //ingen exceptions, så programmet "crasher" hvis man ikke har valgt en fil først! :-)
+            string curItem = listBox3.SelectedItem.ToString();
+            listBox3.Items.Remove(curItem);
+        }
+
 
         public static void LoadSubtitleList()
         {
