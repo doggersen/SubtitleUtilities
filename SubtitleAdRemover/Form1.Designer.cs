@@ -32,10 +32,11 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.buttonSaveChanges = new System.Windows.Forms.Button();
-            this.textBoxDirList = new System.Windows.Forms.TextBox();
-            this.textBoxSubtitlesList = new System.Windows.Forms.TextBox();
-            this.textBoxSearchWordsList = new System.Windows.Forms.TextBox();
             this.textBoxShowMatches = new System.Windows.Forms.TextBox();
+            this.listBoxDirectory = new System.Windows.Forms.ListBox();
+            this.listBoxSubtitles = new System.Windows.Forms.ListBox();
+            this.listBoxSearchWords = new System.Windows.Forms.ListBox();
+            this.folderBrowserDialogSubtitleDirectory = new System.Windows.Forms.FolderBrowserDialog();
             this.SuspendLayout();
             // 
             // buttonBrowseForSubDir
@@ -65,33 +66,6 @@
             this.buttonSaveChanges.Text = "Remove lines and save";
             this.buttonSaveChanges.UseVisualStyleBackColor = true;
             // 
-            // textBoxDirList
-            // 
-            this.textBoxDirList.Location = new System.Drawing.Point(71, 77);
-            this.textBoxDirList.Multiline = true;
-            this.textBoxDirList.Name = "textBoxDirList";
-            this.textBoxDirList.Size = new System.Drawing.Size(169, 89);
-            this.textBoxDirList.TabIndex = 7;
-            this.textBoxDirList.Text = "DirList";
-            // 
-            // textBoxSubtitlesList
-            // 
-            this.textBoxSubtitlesList.Location = new System.Drawing.Point(74, 172);
-            this.textBoxSubtitlesList.Multiline = true;
-            this.textBoxSubtitlesList.Name = "textBoxSubtitlesList";
-            this.textBoxSubtitlesList.Size = new System.Drawing.Size(166, 191);
-            this.textBoxSubtitlesList.TabIndex = 8;
-            this.textBoxSubtitlesList.Text = "SubtitleList";
-            // 
-            // textBoxSearchWordsList
-            // 
-            this.textBoxSearchWordsList.Location = new System.Drawing.Point(344, 74);
-            this.textBoxSearchWordsList.Multiline = true;
-            this.textBoxSearchWordsList.Name = "textBoxSearchWordsList";
-            this.textBoxSearchWordsList.Size = new System.Drawing.Size(124, 92);
-            this.textBoxSearchWordsList.TabIndex = 9;
-            this.textBoxSearchWordsList.Text = "SearchWordsList";
-            // 
             // textBoxShowMatches
             // 
             this.textBoxShowMatches.Location = new System.Drawing.Point(344, 172);
@@ -101,15 +75,39 @@
             this.textBoxShowMatches.TabIndex = 10;
             this.textBoxShowMatches.Text = "ShowMatches";
             // 
+            // listBoxDirectory
+            // 
+            this.listBoxDirectory.FormattingEnabled = true;
+            this.listBoxDirectory.Location = new System.Drawing.Point(71, 74);
+            this.listBoxDirectory.Name = "listBoxDirectory";
+            this.listBoxDirectory.Size = new System.Drawing.Size(169, 95);
+            this.listBoxDirectory.TabIndex = 11;
+            // 
+            // listBoxSubtitles
+            // 
+            this.listBoxSubtitles.FormattingEnabled = true;
+            this.listBoxSubtitles.Location = new System.Drawing.Point(71, 172);
+            this.listBoxSubtitles.Name = "listBoxSubtitles";
+            this.listBoxSubtitles.Size = new System.Drawing.Size(169, 134);
+            this.listBoxSubtitles.TabIndex = 12;
+            // 
+            // listBoxSearchWords
+            // 
+            this.listBoxSearchWords.FormattingEnabled = true;
+            this.listBoxSearchWords.Location = new System.Drawing.Point(344, 74);
+            this.listBoxSearchWords.Name = "listBoxSearchWords";
+            this.listBoxSearchWords.Size = new System.Drawing.Size(172, 95);
+            this.listBoxSearchWords.TabIndex = 13;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.listBoxSearchWords);
+            this.Controls.Add(this.listBoxSubtitles);
+            this.Controls.Add(this.listBoxDirectory);
             this.Controls.Add(this.textBoxShowMatches);
-            this.Controls.Add(this.textBoxSearchWordsList);
-            this.Controls.Add(this.textBoxSubtitlesList);
-            this.Controls.Add(this.textBoxDirList);
             this.Controls.Add(this.buttonSaveChanges);
             this.Controls.Add(this.textBoxSearch);
             this.Controls.Add(this.buttonBrowseForSubDir);
@@ -126,10 +124,11 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.TextBox textBoxSearch;
         private System.Windows.Forms.Button buttonSaveChanges;
-        private System.Windows.Forms.TextBox textBoxDirList;
-        private System.Windows.Forms.TextBox textBoxSubtitlesList;
-        private System.Windows.Forms.TextBox textBoxSearchWordsList;
         private System.Windows.Forms.TextBox textBoxShowMatches;
+        private System.Windows.Forms.ListBox listBoxSubtitles;
+        private System.Windows.Forms.ListBox listBoxSearchWords;
+        public System.Windows.Forms.ListBox listBoxDirectory;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogSubtitleDirectory;
     }
 }
 
