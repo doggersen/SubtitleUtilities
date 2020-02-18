@@ -82,6 +82,7 @@
             this.listBoxDirectory.Name = "listBoxDirectory";
             this.listBoxDirectory.Size = new System.Drawing.Size(169, 95);
             this.listBoxDirectory.TabIndex = 11;
+            this.listBoxDirectory.SelectedIndexChanged += new System.EventHandler(this.listBoxDirectory_SelectedIndexChanged);
             // 
             // listBoxSubtitles
             // 
@@ -90,6 +91,7 @@
             this.listBoxSubtitles.Name = "listBoxSubtitles";
             this.listBoxSubtitles.Size = new System.Drawing.Size(169, 134);
             this.listBoxSubtitles.TabIndex = 12;
+            this.listBoxSubtitles.SelectedIndexChanged += new System.EventHandler(this.listBoxSubtitles_SelectedIndexChanged);
             // 
             // listBoxSearchWords
             // 

@@ -33,6 +33,7 @@ namespace SubtitleAdRemover
             {
                 listBoxDirectory.Items.Add(folderBrowserDialogSubtitleDirectory.SelectedPath);
             }
+            SaveDirListToXML();
         }
 
 
@@ -78,19 +79,30 @@ namespace SubtitleAdRemover
 
         private void LoadSubtitleList()
         {
-            string curItem = listBoxDirectory.SelectedItem.ToString();
-           
+
+            try
+            {
+                listBoxSubtitles.Items.Clear();
+                string curItem = listBoxDirectory.SelectedItem.ToString();
+
                 DirectoryInfo dInfo = new DirectoryInfo(curItem);
                 FileInfo[] files = dInfo.GetFiles("*.srt");
                 foreach (FileInfo file in files)
                 {
                     listBoxSubtitles.Items.Add(file.Name);
                 }
-            //selects first item in listbox as default
-            if (this.listBoxSubtitles.Items.Count > 0)
-                this.listBoxSubtitles.SelectedIndex = 0;
-            ShowAdWordMatches();
+                //selects first item in listbox as default
+                if (this.listBoxSubtitles.Items.Count > 0)
+                    this.listBoxSubtitles.SelectedIndex = 0;
+                ShowAdWordMatches();
+            }
 
+            catch (DirectoryNotFoundException dirEx)
+            {
+                // Let the user know that the directory did not exist.
+                Console.WriteLine("Directory not found: " + dirEx.Message);
+
+            }
         }
 
         public static void SearchForAds()
@@ -132,7 +144,14 @@ namespace SubtitleAdRemover
             File.WriteAllText(fullPath + "NewFile(with_lines_removed).srt", testReplace);
         }
 
-        
+        private void listBoxDirectory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadSubtitleList();
+        }
 
+        private void listBoxSubtitles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ShowAdWordMatches();
+        }
     }
 }
