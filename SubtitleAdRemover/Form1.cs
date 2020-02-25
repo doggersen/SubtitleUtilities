@@ -118,8 +118,31 @@ namespace SubtitleAdRemover
             string fullPath = Path.Combine(paths);
             string content = File.ReadAllText(fullPath);
 
+            string myTest = "subtitles";
             textBoxShowMatches.Text = ""; //start by clearing the textBox
-            Regex regex = new Regex(@"(?<=\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d)(\r\n.*subtitles.*\n.*)(?=)", RegexOptions.IgnoreCase);
+
+            string reg = @"(?<=\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d)(\r\n.*{0}.*\n.*)(?=)";
+            string newString = String.Format(reg, myTest);
+            Regex regex = new Regex(newString, RegexOptions.IgnoreCase);
+
+
+            //Regex regex = new Regex(String.Format(reg, myTest, RegexOptions.IgnoreCase));
+
+
+            //Regex regex = new Regex(@"(?<=\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d)(\r\n.*subtitles.*\n.*)(?=)", RegexOptions.IgnoreCase);
+            //Regex regex = new Regex(@"(?<=\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d)(\r\n.*{test}.*\n.*)(?=)", RegexOptions.IgnoreCase);
+            //+Regex.Escape(myurl) +
+
+            //reddit answer:
+            //string reg = @"(?<=\d\d --> \d)(\r\n.*{0}.*\n.*)(?=)";
+            //Regex regex = new Regex(String.Format(reg, myTest, RegexOptions.IgnoreCase);
+
+            //for reddit:
+            //string myTest = "superman";
+            //Regex regex = new Regex(@"(?<=\d\d --> \d)(\r\n.*{myTest}.*\n.*)(?=)", RegexOptions.IgnoreCase);
+
+            //Regex regex = new Regex(@"(?<=\d\d --> \d)(\r\n.*batman.*\n.*)(?=)", RegexOptions.IgnoreCase);
+
 
             foreach (Match myMatch in regex.Matches(content))
             {
