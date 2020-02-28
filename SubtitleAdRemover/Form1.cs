@@ -18,7 +18,7 @@ namespace SubtitleAdRemover
         public Form1()
         {
             InitializeComponent();
-            LoadDirList();
+            LoadListFromXML("saveDirList.xml");
 
         }
 
@@ -33,7 +33,7 @@ namespace SubtitleAdRemover
             {
                 listBoxDirectory.Items.Add(folderBrowserDialogSubtitleDirectory.SelectedPath);
             }
-            SaveDirListToXML();
+            SaveListToXML("saveDirList.xml");
         }
 
 
@@ -43,9 +43,9 @@ namespace SubtitleAdRemover
 
         }
 
-        private void LoadDirList()
+        private void LoadListFromXML(string loadFileName)
         {
-            XElement xElement = XElement.Load("saves.xml");
+            XElement xElement = XElement.Load(loadFileName);
             {
                 foreach (XElement xEle in xElement.Descendants("save_path"))
                 {
@@ -66,15 +66,22 @@ namespace SubtitleAdRemover
             listBoxDirectory.Items.Remove(curItem);
         }
 
-        private void SaveDirListToXML()
+        private void SaveListToXML(string saveFileName)
         {
             XDocument doc = new XDocument(
 
           new XElement("saves", listBoxDirectory.Items
          .OfType<string>()
          .Select(item => new XElement("save_path", item))));
-            doc.Save("saves.xml");
+            doc.Save(saveFileName);
+            //doc.Save("saves.xml");
+        }
 
+
+        private void checkIfListItemSelected (ListBox listBox)
+        {
+            if ($"this.{listBox}.Items.Count > 0)
+                this.listBoxSubtitles.SelectedIndex = 0;
         }
 
         private void LoadSubtitleList()
@@ -112,43 +119,50 @@ namespace SubtitleAdRemover
 
         private void ShowAdWordMatches()
         {
-            string curPath = listBoxDirectory.SelectedItem.ToString();
-            string curItem = listBoxSubtitles.SelectedItem.ToString();
-            string[] paths = { curPath, curItem };
-            string fullPath = Path.Combine(paths);
-            string content = File.ReadAllText(fullPath);
-
-            string myTest = "subtitles";
-            textBoxShowMatches.Text = ""; //start by clearing the textBox
-
-            string reg = @"(?<=\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d)(\r\n.*{0}.*\n.*)(?=)";
-            string newString = String.Format(reg, myTest);
-            Regex regex = new Regex(newString, RegexOptions.IgnoreCase);
-
-
-            //Regex regex = new Regex(String.Format(reg, myTest, RegexOptions.IgnoreCase));
-
-
-            //Regex regex = new Regex(@"(?<=\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d)(\r\n.*subtitles.*\n.*)(?=)", RegexOptions.IgnoreCase);
-            //Regex regex = new Regex(@"(?<=\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d)(\r\n.*{test}.*\n.*)(?=)", RegexOptions.IgnoreCase);
-            //+Regex.Escape(myurl) +
-
-            //reddit answer:
-            //string reg = @"(?<=\d\d --> \d)(\r\n.*{0}.*\n.*)(?=)";
-            //Regex regex = new Regex(String.Format(reg, myTest, RegexOptions.IgnoreCase);
-
-            //for reddit:
-            //string myTest = "superman";
-            //Regex regex = new Regex(@"(?<=\d\d --> \d)(\r\n.*{myTest}.*\n.*)(?=)", RegexOptions.IgnoreCase);
-
-            //Regex regex = new Regex(@"(?<=\d\d --> \d)(\r\n.*batman.*\n.*)(?=)", RegexOptions.IgnoreCase);
-
-
-            foreach (Match myMatch in regex.Matches(content))
+            if (this.listBoxSubtitles.Items.Count > 0)
             {
-                //works without this line, but is it a good exception-handler of some kind? //if (myMatch.Success)
-                textBoxShowMatches.Text += myMatch.Value + Environment.NewLine;
+                this.listBoxSubtitles.SelectedIndex = 0;
+             
+                string curPath = listBoxDirectory.SelectedItem.ToString();
+                string curItem = listBoxSubtitles.SelectedItem.ToString();
+                string[] paths = { curPath, curItem };
+                string fullPath = Path.Combine(paths);
+                string content = File.ReadAllText(fullPath);
+
+                string myTest = "subtitles";
+                textBoxShowMatches.Text = ""; //start by clearing the textBox
+
+                string reg = @"(?<=\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d)(\r\n.*{0}.*\n.*)(?=)";
+                string newString = String.Format(reg, myTest);
+                Regex regex = new Regex(newString, RegexOptions.IgnoreCase);
+
+
+                //Regex regex = new Regex(String.Format(reg, myTest, RegexOptions.IgnoreCase));
+
+
+                //Regex regex = new Regex(@"(?<=\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d)(\r\n.*subtitles.*\n.*)(?=)", RegexOptions.IgnoreCase);
+                //Regex regex = new Regex(@"(?<=\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d)(\r\n.*{test}.*\n.*)(?=)", RegexOptions.IgnoreCase);
+                //+Regex.Escape(myurl) +
+
+                //reddit answer:
+                //string reg = @"(?<=\d\d --> \d)(\r\n.*{0}.*\n.*)(?=)";
+                //Regex regex = new Regex(String.Format(reg, myTest, RegexOptions.IgnoreCase);
+
+                //for reddit:
+                //string myTest = "superman";
+                //Regex regex = new Regex(@"(?<=\d\d --> \d)(\r\n.*{myTest}.*\n.*)(?=)", RegexOptions.IgnoreCase);
+
+                //Regex regex = new Regex(@"(?<=\d\d --> \d)(\r\n.*batman.*\n.*)(?=)", RegexOptions.IgnoreCase);
+             
+
+                foreach (Match myMatch in regex.Matches(content))
+                {
+                    //works without this line, but is it a good exception-handler of some kind? //if (myMatch.Success)
+                    textBoxShowMatches.Text += myMatch.Value + Environment.NewLine;
+                }
+
             }
+ 
         }
 
         private void RemoveLinesAndSave()
