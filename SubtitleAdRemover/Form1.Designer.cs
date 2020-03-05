@@ -83,6 +83,7 @@
             this.listBoxDirectory.Size = new System.Drawing.Size(169, 95);
             this.listBoxDirectory.TabIndex = 11;
             this.listBoxDirectory.SelectedIndexChanged += new System.EventHandler(this.listBoxDirectory_SelectedIndexChanged);
+            this.listBoxDirectory.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listBoxDirectory_KeyDown);
             // 
             // listBoxSubtitles
             // 
@@ -100,6 +101,7 @@
             this.listBoxSearchWords.Name = "listBoxSearchWords";
             this.listBoxSearchWords.Size = new System.Drawing.Size(172, 95);
             this.listBoxSearchWords.TabIndex = 13;
+            this.listBoxSearchWords.SelectedIndexChanged += new System.EventHandler(this.listBoxSearchWords_SelectedIndexChanged);
             // 
             // Form1
             // 
