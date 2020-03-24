@@ -15,11 +15,18 @@ namespace SubtitleAdRemover
 {
     public partial class Form1 : Form
     {
+
+        public string replaceTextWithEmpty = @"";
+        public string subtitlesMatchesRemoved = "";
+
+
         public Form1()
         {
             InitializeComponent();
-            LoadListFromXML("saveDirList.xml");
+            //the sequence these are loaded in matters! if LoadListFromXML is loaded first, it crashes because LoadLostFromXMLSearchWords ends up with a null-error!
             LoadListFromXMLSearchWords("saveSearchList.xml");
+            LoadListFromXML("saveDirList.xml");
+            
         }
                 
         private void buttonBrowseForSubDir_Click(object sender, EventArgs e)
@@ -36,8 +43,7 @@ namespace SubtitleAdRemover
             SaveListToXML("saveDirList.xml");
         }
 
-
-        
+           
         private void LoadListFromXMLSearchWords(string loadFileName)
             {
                 XElement xElement = XElement.Load(loadFileName);
@@ -74,6 +80,7 @@ namespace SubtitleAdRemover
             }
             
             LoadSubtitleList();
+            LoadMovieList();
         }
 
 
@@ -129,12 +136,26 @@ namespace SubtitleAdRemover
             }
         }
 
+        private void LoadMovieList()
+        {
+            listBoxMovies.Items.Clear();
+            string curItem = listBoxDirectory.SelectedItem.ToString();
+
+            DirectoryInfo dInfo = new DirectoryInfo(curItem);
+            FileInfo[] files = dInfo.GetFiles("*.mkv");
+            foreach (FileInfo file in files)
+            {
+                listBoxMovies.Items.Add(file.Name);
+            }
+        }
+
         public static void SearchForAds()
         {
 
         }
 
-        private string CombinePathWithFilename()
+
+        private string SelectedSubtitleFile()
         {
             string curPath = listBoxDirectory.SelectedItem.ToString();
             string curItem = listBoxSubtitles.SelectedItem.ToString();
@@ -145,13 +166,26 @@ namespace SubtitleAdRemover
             
         }
 
+        private string SelectedMovieFile()
+        {
+            
+            string curPath = listBoxDirectory.SelectedItem.ToString();
+            string curItem = listBoxMovies.SelectedItem.ToString();
+            string[] paths = { curPath, Path.GetFileNameWithoutExtension(curItem) };
+            string fullPath = Path.Combine(paths);
+
+            return fullPath;
+            
+        }
+
+
         private void ShowAdWordMatches()
         {
             if (this.listBoxSubtitles.Items.Count > 0)
             {
 
              
-                string content = File.ReadAllText(CombinePathWithFilename());
+                string content = File.ReadAllText(SelectedSubtitleFile());
 
                 string searchWord = listBoxSearchWords.SelectedItem.ToString();
                 textBoxShowMatches.Text = ""; //start by clearing the textBox
@@ -173,19 +207,57 @@ namespace SubtitleAdRemover
         private void RemoveMatchingLines()
         {
             
-            string content = File.ReadAllText(CombinePathWithFilename());
+            string content = File.ReadAllText(SelectedSubtitleFile());
 
             Regex regex = new Regex(@"(?<=\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d)(\r\n.*subtitles.*\n.*)(?=)", RegexOptions.IgnoreCase);
             string strReplace = @"";
-            string testReplace = regex.Replace(content, strReplace);
+            subtitlesMatchesRemoved = regex.Replace(content, strReplace);
 
             
         }
 
         private void SaveChangesToSubtitleFile()
         {
+
             //textBoxShowMatches.Text = testReplace;
-            //File.WriteAllText(fullPath + "NewFile(with_lines_removed).srt", testReplace);
+            //string fullPath = SelectedSubtitleFile();
+            RemoveMatchingLines();
+            if (listBoxMovies.SelectedIndex == -1)
+            {
+                string message = $"You haven't selected a movie name, so your subtitle file will be called: {SelectedSubtitleFile()}(with_advertising_lines_removed";
+                string title = "Do you want to continue?";
+                MessageBoxButtons buttons = MessageBoxButtons.OKCancel;
+                DialogResult result = MessageBox.Show(message, title, buttons);
+                if (result == DialogResult.OK)
+                {
+                    File.WriteAllText(SelectedSubtitleFile() + "(with_advertising_lines_removed).srt", subtitlesMatchesRemoved);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("you selected cancel");
+                }
+            }
+            else
+            {
+                string message = $"your subtitle file will be called: {SelectedMovieFile()}.srt";
+                string title = "Do you want to continue?";
+                MessageBoxButtons buttons = MessageBoxButtons.OKCancel;
+                DialogResult result = MessageBox.Show(message, title, buttons);
+                if (result == DialogResult.OK)
+                {
+                    File.WriteAllText(SelectedMovieFile() + ".srt", subtitlesMatchesRemoved);
+                }
+                else
+                {
+                    listBoxMovies.ClearSelected();
+                }
+               
+            }
+            
+
+
+
         }
 
 
@@ -212,6 +284,11 @@ namespace SubtitleAdRemover
         private void listBoxSearchWords_SelectedIndexChanged(object sender, EventArgs e)
         {
             ShowAdWordMatches();
+        }
+
+        private void buttonSaveChanges_Click(object sender, EventArgs e)
+        {
+            SaveChangesToSubtitleFile();
         }
     }
 }

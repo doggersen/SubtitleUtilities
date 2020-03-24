@@ -37,6 +37,7 @@
             this.listBoxSubtitles = new System.Windows.Forms.ListBox();
             this.listBoxSearchWords = new System.Windows.Forms.ListBox();
             this.folderBrowserDialogSubtitleDirectory = new System.Windows.Forms.FolderBrowserDialog();
+            this.listBoxMovies = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // buttonBrowseForSubDir
@@ -65,6 +66,7 @@
             this.buttonSaveChanges.TabIndex = 6;
             this.buttonSaveChanges.Text = "Remove lines and save";
             this.buttonSaveChanges.UseVisualStyleBackColor = true;
+            this.buttonSaveChanges.Click += new System.EventHandler(this.buttonSaveChanges_Click);
             // 
             // textBoxShowMatches
             // 
@@ -103,11 +105,20 @@
             this.listBoxSearchWords.TabIndex = 13;
             this.listBoxSearchWords.SelectedIndexChanged += new System.EventHandler(this.listBoxSearchWords_SelectedIndexChanged);
             // 
+            // listBoxMovies
+            // 
+            this.listBoxMovies.FormattingEnabled = true;
+            this.listBoxMovies.Location = new System.Drawing.Point(619, 74);
+            this.listBoxMovies.Name = "listBoxMovies";
+            this.listBoxMovies.Size = new System.Drawing.Size(192, 238);
+            this.listBoxMovies.TabIndex = 14;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(966, 462);
+            this.Controls.Add(this.listBoxMovies);
             this.Controls.Add(this.listBoxSearchWords);
             this.Controls.Add(this.listBoxSubtitles);
             this.Controls.Add(this.listBoxDirectory);
@@ -133,6 +144,7 @@
         private System.Windows.Forms.ListBox listBoxSearchWords;
         public System.Windows.Forms.ListBox listBoxDirectory;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogSubtitleDirectory;
+        private System.Windows.Forms.ListBox listBoxMovies;
     }
 }
 
