@@ -38,6 +38,9 @@
             this.listBoxSearchWords = new System.Windows.Forms.ListBox();
             this.folderBrowserDialogSubtitleDirectory = new System.Windows.Forms.FolderBrowserDialog();
             this.listBoxMovies = new System.Windows.Forms.ListBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabelErrorMessages = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonBrowseForSubDir
@@ -113,11 +116,27 @@
             this.listBoxMovies.Size = new System.Drawing.Size(192, 238);
             this.listBoxMovies.TabIndex = 14;
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabelErrorMessages});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 440);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(966, 22);
+            this.statusStrip1.TabIndex = 15;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabelErrorMessages
+            // 
+            this.toolStripStatusLabelErrorMessages.Name = "toolStripStatusLabelErrorMessages";
+            this.toolStripStatusLabelErrorMessages.Size = new System.Drawing.Size(0, 17);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(966, 462);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.listBoxMovies);
             this.Controls.Add(this.listBoxSearchWords);
             this.Controls.Add(this.listBoxSubtitles);
@@ -128,6 +147,8 @@
             this.Controls.Add(this.buttonBrowseForSubDir);
             this.Name = "Form1";
             this.Text = "Subtitle Ad Remover";
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -145,6 +166,8 @@
         public System.Windows.Forms.ListBox listBoxDirectory;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogSubtitleDirectory;
         private System.Windows.Forms.ListBox listBoxMovies;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelErrorMessages;
     }
 }
 

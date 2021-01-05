@@ -138,14 +138,22 @@ namespace SubtitleAdRemover
 
         private void LoadMovieList()
         {
-            listBoxMovies.Items.Clear();
-            string curItem = listBoxDirectory.SelectedItem.ToString();
-
-            DirectoryInfo dInfo = new DirectoryInfo(curItem);
-            FileInfo[] files = dInfo.GetFiles("*.mkv");
-            foreach (FileInfo file in files)
+            try
             {
-                listBoxMovies.Items.Add(file.Name);
+                listBoxMovies.Items.Clear();
+                string curItem = listBoxDirectory.SelectedItem.ToString();
+
+                DirectoryInfo dInfo = new DirectoryInfo(curItem);
+                FileInfo[] files = dInfo.GetFiles("*.mkv");
+                foreach (FileInfo file in files)
+                {
+                    listBoxMovies.Items.Add(file.Name);
+                }
+            }
+            catch (DirectoryNotFoundException dirEx)
+            {
+                // Let the user know that the directory did not exist.
+                toolStripStatusLabelErrorMessages.Text =  "Directory not found: " + dirEx.Message;
             }
         }
 
@@ -263,8 +271,10 @@ namespace SubtitleAdRemover
 
         private void listBoxDirectory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            textBoxShowMatches.Text = ""; //clears the box first, so it shows matches when there is currently a subtitle selected. 
+            textBoxShowMatches.Text = ""; //clears the box first, so it shows matches when there is currently a subtitle selected.
+            toolStripStatusLabelErrorMessages.Text = ""; //clears status bar, else it will have old error messages shown.
             LoadSubtitleList();
+            LoadMovieList();
         }
 
         private void listBoxSubtitles_SelectedIndexChanged(object sender, EventArgs e)
